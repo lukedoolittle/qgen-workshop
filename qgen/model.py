@@ -99,19 +99,22 @@ batch_count = None
 for epoch in trange(epoch + 1, EPOCHS + 1, desc="Epochs", unit="epoch"):
     batches = tqdm(training_data(), total=batch_count, desc="Batches", unit="batch")
     for batch in batches:
-        _, loss_value, summary = session.run([optimizer, loss, merged], {
-            document_tokens: batch["document_tokens"],
-            document_lengths: batch["document_lengths"],
-            answer_labels: batch["answer_labels"],
-            encoder_input_mask: batch["answer_masks"],
-            encoder_lengths: batch["answer_lengths"],
-            decoder_inputs: batch["question_input_tokens"],
-            decoder_labels: batch["question_output_tokens"],
-            decoder_lengths: batch["question_lengths"],
-        })
-        batches.set_postfix(loss=loss_value)
-        writer.add_summary(summary, batch_index)
-        writer.flush()
+        if len(batch["document_tokens"]) > 15:
+            _, loss_value, summary = session.run([optimizer, loss, merged], {
+                document_tokens: batch["document_tokens"],
+                document_lengths: batch["document_lengths"],
+                answer_labels: batch["answer_labels"],
+                encoder_input_mask: batch["answer_masks"],
+                encoder_lengths: batch["answer_lengths"],
+                decoder_inputs: batch["question_input_tokens"],
+                decoder_labels: batch["question_output_tokens"],
+                decoder_lengths: batch["question_lengths"],
+            })
+            batches.set_postfix(loss=loss_value)
+            writer.add_summary(summary, batch_index)
+            writer.flush()
+        else:
+            pass
         batch_index += 1
 
     if batch_count is None:

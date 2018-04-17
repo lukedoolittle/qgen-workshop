@@ -9,7 +9,7 @@ import numpy as np
 from qgen.embedding import look_up_word, START_WORD, END_WORD
 
 
-_MAX_BATCH_SIZE = 128
+_MAX_BATCH_SIZE = 32
 
 
 def _tokenize(string):
