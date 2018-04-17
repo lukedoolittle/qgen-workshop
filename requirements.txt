@@ -1,0 +1,5 @@
+-r requirements.win.txt
+h5py==2.7.1
+numpy==1.13.1
+pandas==0.20.3
+scipy==0.19.1
